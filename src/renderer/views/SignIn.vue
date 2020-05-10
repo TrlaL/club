@@ -43,7 +43,7 @@ export default {
     async signIn () {
       if (this.isChecked) {
         this.$store.commit('SET_LOGIN', this.login)
-        this.$router.push({ name: 'manager' })
+        this.$router.push({ name: this.login === 'user' ? 'shell' : 'manager' })
       } else {
         alert('Данного пользователя не существует!')
       }

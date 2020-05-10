@@ -70,7 +70,7 @@ $padding: 12px;
     right: $padding;
 
     .icon {
-      font-size: 16px;
+      font-size: 14px;
       padding: 4px 8px;
       transition: background $transition-duration;
 

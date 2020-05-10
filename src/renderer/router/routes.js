@@ -1,18 +1,26 @@
+import Home from '@/views/Home'
 import Manager from '@/views/Manager'
 import SignIn from '@/views/SignIn'
+import Shell from '@/views/Shell'
 
 export default [{
-  component: SignIn,
-  name: 'sign-in',
-  path: '/sign-in',
-  meta: {
-    logins: ['quest']
-  }
+  component: Home,
+  meta: { logins: ['quest', 'user', 'admin', 'root'] },
+  name: 'home',
+  path: '/'
 }, {
   component: Manager,
+  meta: { logins: ['admin', 'root'] },
   name: 'manager',
-  path: '/',
-  meta: {
-    logins: ['root', 'admin', 'quest']
-  }
+  path: '/manager'
+}, {
+  component: SignIn,
+  meta: { logins: ['quest'] },
+  name: 'sign-in',
+  path: '/sign-in'
+}, {
+  component: Shell,
+  meta: { logins: ['quest', 'user'] },
+  name: 'shell',
+  path: '/shell'
 }]

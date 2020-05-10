@@ -1,40 +1,60 @@
 <template>
   <div class="manager-grid" :style="style">
-    <ManagerItem
-      v-for="(item, i) in items"
-      :key="item.id"
-      :order="i"
-      :item="item">
-    </ManagerItem>
+    <ManagerCell
+      v-for="(computer, i) in computers"
+      :key="computer.id"
+      :computer="computer"
+      :order="getCurrentOrder(computer)"
+      :index="i">
+    </ManagerCell>
   </div>
 </template>
 
 <script>
-import ManagerItem from './ManagerItem'
+import ManagerCell from './ManagerCell'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ManagerItem
+    ManagerCell
   },
 
   props: {
-    items: {
+    columns: {
+      default: 5,
+      type: Number
+    },
+    computers: {
       required: true,
       type: Array
+    },
+    orders: {
+      required: true,
+      type: Array
+    },
+    rows: {
+      default: 5,
+      type: Number
     }
   },
 
-  data: () => ({
-    columns: 5,
-    rows: 5
-  }),
-
   computed: {
+    ...mapGetters([
+      'now'
+    ]),
     style () {
       return {
         'grid-template-columns': `repeat(${this.columns}, 1fr)`,
         'grid-template-rows': `repeat(${this.rows}, 1fr)`
       }
+    }
+  },
+
+  methods: {
+    getCurrentOrder (computer) {
+      return this.orders.find(order => {
+        return order.computerId === computer._id && order.fromDate <= this.now && order.toDate >= this.now
+      }) || {}
     }
   }
 }

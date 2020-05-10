@@ -5,14 +5,11 @@
     visible
     @hide="clearModal">
     <b-form-group label="Название">
-      <b-form-input
-        placeholder="Название"
-        v-model="name">
+      <b-form-input v-model="name">
       </b-form-input>
     </b-form-group>
     <b-form-group class="mb-0" label="IP Адрес">
-      <b-form-input
-        v-model="ip">
+      <b-form-input v-model="ip">
       </b-form-input>
     </b-form-group>
     <template #modal-footer>
@@ -23,6 +20,9 @@
 </template>
 
 <script>
+import moment from 'moment'
+import { DATE_FORMAT } from '@/constants'
+
 export default {
   data: () => ({
     name: '',
@@ -33,16 +33,16 @@ export default {
   computed: {
     existRecord () {
       return {
-        table: this.table,
+        _table: this.table,
         $or: [{ name: this.name }, { ip: this.ip }]
       }
     },
     record () {
       return {
-        table: this.table,
+        _table: this.table,
         name: this.name,
         ip: this.ip,
-        createdAt: new Date()
+        createdAt: moment().format(DATE_FORMAT)
       }
     }
   },
@@ -55,7 +55,7 @@ export default {
           alert('Компьютер с таким названием или IP адресом уже есть в базе данных!')
         } else {
           this.$db.insert(this.record)
-          this.$bus.emit('add-computer')
+          this.$bus.emit('fetchComputers')
           this.clearModal()
         }
       } else {

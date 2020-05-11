@@ -23,3 +23,9 @@ html {
 .fade-leave {
   opacity: 1;
 }
+
+.dropdown-toggle {
+  border: 0 !important;
+  display: inline-flex !important;
+  padding: 0 !important;
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="manager-item" @click="openModalEditComputer">
+  <div class="manager-cell" @click="openModalEditComputer">
     <div class="order" :class="orderClassName">
       <div class="wrapper">
         <Icon name="desktop_windows" size="30px" />
@@ -76,7 +76,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.manager-item {
+.manager-cell {
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   color: #444;

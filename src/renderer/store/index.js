@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    apps: [],
     computers: [],
     isHeaderVisible: true,
     login: 'quest',
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     orders: []
   },
   getters: {
+    apps: state => state.apps,
     computers: state => state.computers,
     isHeaderVisible: state => state.isHeaderVisible,
     login: state => state.login,
@@ -23,6 +25,9 @@ export default new Vuex.Store({
     orders: state => state.orders
   },
   mutations: {
+    SET_APPS (state, apps) {
+      state.apps = apps
+    },
     SET_COMPUTERS (state, computers) {
       state.computers = computers
     },
@@ -47,6 +52,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async fetchApps ({ commit }) {
+      let apps = await datastore.asyncFind({ _table: 'apps' })
+      commit('SET_APPS', apps)
+    },
     async fetchComputers ({ commit }) {
       let computers = await datastore.asyncFind({ _table: 'computers' })
       commit('SET_COMPUTERS', computers)

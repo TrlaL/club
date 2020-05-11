@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueBus from 'vue-bus'
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import axios from 'axios'
 import App from './App'
 import Icon from './components/common/Icon'
@@ -14,6 +15,7 @@ Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.component('Icon', Icon)
 Vue.use(BootstrapVue)
+Vue.use(PerfectScrollbar)
 Vue.use(VueBus)
 
 /* eslint-disable no-new */

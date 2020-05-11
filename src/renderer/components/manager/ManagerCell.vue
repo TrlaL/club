@@ -107,7 +107,7 @@ export default {
         font-size: 0.5em;
         position: absolute;
         text-align: center;
-        top: 5px;
+        top: 2px;
         width: 100%;
       }
     }

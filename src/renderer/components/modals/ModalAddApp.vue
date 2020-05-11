@@ -15,7 +15,7 @@
       <b-form-input v-model="name" />
     </b-form-group>
     <template #modal-footer>
-      <b-button variant="primary" @click="add">Добавить</b-button>
+      <b-button variant="primary" :disabled="!icon" @click="add">Добавить</b-button>
       <b-button variant="secondary" @click="clearModal">Отмена</b-button>
     </template>
   </b-modal>
@@ -23,6 +23,8 @@
 
 <script>
 import iconExtractor from 'icon-extractor'
+import moment from 'moment'
+import { DATE_FORMAT } from '@/constants'
 
 export default {
   data: () => ({
@@ -64,6 +66,7 @@ export default {
     getRecord (data) {
       return {
         _table: this.table,
+        createdAt: moment().format(DATE_FORMAT),
         icon: this.icon,
         name: this.name,
         path: this.path

@@ -2,7 +2,7 @@
   <div class="shell-apps">
     <div class="header">
       <Icon class="icon" name="search" />
-      <input class="input" placeholder="Поиск...">
+      <input class="input" placeholder="Поиск..." v-model="search">
       <b-dropdown
         no-caret
         right
@@ -16,21 +16,36 @@
         </b-dropdown-item>
       </b-dropdown>
     </div>
-    <PerfectScrollbar class="main">
-      <div class="app" v-for="app in apps" :key="app.id">
-        <img class="icon" :src="app.icon" />
-        <div class="label">{{ app.name }}</div>
-      </div>
-    </PerfectScrollbar>
+    <ShellAppsList :apps="filteredApps" />
   </div>
 </template>
 
 <script>
+import ShellAppsList from './ShellAppsList'
+import lodash from 'lodash'
+
 export default {
+  components: {
+    ShellAppsList
+  },
+
   props: {
     apps: {
       required: true,
       type: Array
+    }
+  },
+
+  data: () => ({
+    search: ''
+  }),
+
+  computed: {
+    filteredApps () {
+      return lodash.sortBy(this.apps.filter(({ name }) => {
+        let expression = new RegExp(this.search, 'i')
+        return expression.test(name)
+      }), 'createdAt')
     }
   },
 
@@ -74,40 +89,6 @@ $width: 60%;
       flex: 1;
       height: 100%;
       outline: 0;
-    }
-  }
-
-  .main {
-    display: grid;
-    flex: 1;
-    grid-auto-rows: min-content;
-    grid-gap: 10px;
-    grid-template-columns: repeat(6, 1fr);
-    overflow: auto;
-    padding: 10px;
-
-    .app {
-      align-items: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      padding: 40px 0;
-      transition: all $transition-duration;
-
-      &:hover {
-        background: #fff;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-      }
-
-      .label {
-        font-size: 0.9em;
-        overflow: hidden;
-        padding: 0 4px;
-        text-align: center;
-        text-overflow: ellipsis;
-        width: 100%;
-      }
     }
   }
 }

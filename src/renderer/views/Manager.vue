@@ -59,28 +59,15 @@ export default {
   },
 
   created () {
-    this.$bus.on('fetchComputers', this.fetchComputers)
-    this.$bus.on('fetchOrders', this.fetchOrders)
-  },
-
-  mounted () {
-    this.fetchComputers()
-    this.fetchOrders()
     this.window.maximize()
   },
 
-  beforeDestroy () {
-    this.$bus.off('fetchComputers', this.fetchComputers)
-    this.$bus.off('fetchOrders', this.fetchOrders)
+  mounted () {
+    this.$store.dispatch('fetchComputers')
+    this.$store.dispatch('fetchOrders')
   },
 
   methods: {
-    fetchComputers () {
-      this.$store.dispatch('fetchComputers')
-    },
-    fetchOrders () {
-      this.$store.dispatch('fetchOrders')
-    },
     openModalAddComputer () {
       this.$store.commit('SET_MODAL', { name: 'ModalAddComputer' })
     },

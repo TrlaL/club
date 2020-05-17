@@ -36,6 +36,15 @@ export default {
     table: 'apps'
   }),
 
+  computed: {
+    messageBoxOptions () {
+      return {
+        centered: true,
+        title: 'Ошибка'
+      }
+    }
+  },
+
   watch: {
     file ({ name, path }) {
       iconExtractor.getIcon(name, path)
@@ -54,10 +63,10 @@ export default {
     async add (data) {
       if (this.file && this.path) {
         await this.$db.asyncInsert(this.getRecord(data))
-        this.$bus.emit('fetchApps')
+        this.$store.dispatch('fetchApps')
         this.clearModal()
       } else {
-        alert('Выберите приложение и укажите название!')
+        this.$bvModal.msgBoxOk('Выберите приложение и укажите его название!', this.messageBoxOptions)
       }
     },
     clearModal () {
@@ -68,6 +77,7 @@ export default {
         _table: this.table,
         createdAt: moment().format(DATE_FORMAT),
         icon: this.icon,
+        launched: false,
         name: this.name,
         path: this.path
       }

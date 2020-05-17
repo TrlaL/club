@@ -1,7 +1,11 @@
 <template>
   <PerfectScrollbar class="shell-apps-list">
     <transition-group class="main" name="fade" tag="div">
-      <div class="app" v-for="app in apps" :key="app._id">
+      <div
+        class="app"
+        v-for="app in apps"
+        :key="app._id"
+        @click="exec(app.path)">
         <img class="icon" :src="app.icon" />
         <div class="label">{{ app.name }}</div>
       </div>
@@ -10,11 +14,19 @@
 </template>
 
 <script>
+import { exec } from 'child_process'
+
 export default {
   props: {
     apps: {
       required: true,
       type: Array
+    }
+  },
+
+  methods: {
+    exec (path) {
+      exec(path)
     }
   }
 }

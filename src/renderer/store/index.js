@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     apps: [],
     computers: [],
+    isDisabled: false,
     isHeaderVisible: true,
     login: 'quest',
     modal: {},
@@ -18,6 +19,7 @@ export default new Vuex.Store({
   getters: {
     apps: state => state.apps,
     computers: state => state.computers,
+    isDisabled: state => state.isDisabled,
     isHeaderVisible: state => state.isHeaderVisible,
     login: state => state.login,
     modal: state => state.modal,
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     SET_ORDERS_TIME (state, { id, time }) {
       let index = lodash.findIndex(state.orders, { _id: id })
       Vue.set(state.orders[index], 'time', time)
+    },
+    TOGGLE_DISABLED (state) {
+      state.isDisabled = !state.isDisabled
     },
     TOGGLE_HEADER_VISIBLE (state) {
       state.isHeaderVisible = !state.isHeaderVisible

@@ -6,6 +6,8 @@
 
 <script>
 import ShellApps from '@/components/shell/ShellApps'
+import ps from 'ps-node'
+import { exec } from 'child_process'
 import { mapGetters } from 'vuex'
 import { remote } from 'electron'
 
@@ -15,33 +17,50 @@ export default {
   },
 
   data: () => ({
+    mask: 'explorer.exe',
+    process: {},
     window: remote.getCurrentWindow()
   }),
 
   computed: {
     ...mapGetters([
-      'apps'
+      'apps', 'isDisabled'
     ])
   },
 
+  watch: {
+    process: {
+      deep: true,
+      handler (process) {
+        ps.kill(process.pid)
+      }
+    }
+  },
+
   created () {
-    this.$bus.on('fetchApps', this.fetchApps)
+    this.getExplorerProcess()
+    this.window.maximize()
+    // this.window.setAlwaysOnTop(true)
+    // this.window.setClosable(false)
+    // this.window.setFocusable(false)
+    this.window.setKiosk(true)
   },
 
   mounted () {
     this.$store.commit('TOGGLE_HEADER_VISIBLE')
-    this.fetchApps()
-    this.window.maximize()
-    this.window.setKiosk(true)
+    this.$store.dispatch('fetchApps')
   },
 
   beforeDestroy () {
-    this.$bus.off('fetchApps', this.fetchApps)
+    alert(this.process.command)
+    exec(this.process.command)
   },
 
   methods: {
-    fetchApps () {
-      this.$store.dispatch('fetchApps')
+    getExplorerProcess () {
+      ps.lookup({}, (error, processes) => {
+        this.process = processes.find(process => new RegExp(this.mask).test(process.command))
+      })
     }
   }
 }

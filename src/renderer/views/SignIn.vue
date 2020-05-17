@@ -36,6 +36,12 @@ export default {
   computed: {
     isChecked () {
       return USERS.some(({ login, password }) => login === this.login && password === this.password)
+    },
+    messageBoxOptions () {
+      return {
+        centered: true,
+        title: 'Ошибка'
+      }
     }
   },
 
@@ -45,7 +51,7 @@ export default {
         this.$store.commit('SET_LOGIN', this.login)
         this.$router.push({ name: this.login === 'user' ? 'shell' : 'manager' })
       } else {
-        alert('Данного пользователя не существует!')
+        this.$bvModal.msgBoxOk('Логин или пароли введены не верно!', this.messageBoxOptions)
       }
     }
   }
@@ -66,7 +72,7 @@ $padding: 10px 30px;
     justify-content: center;
 
     .icon {
-      background: darken($secondary-color, 20);
+      background: darken($secondary-color, 10);
       border-radius: 100%;
       box-shadow: inset 0 0 2px 2px #aaa;
       font-size: 5em;

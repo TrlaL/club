@@ -40,6 +40,12 @@ export default {
     ...mapGetters([
       'modal'
     ]),
+    messageBoxOptions () {
+      return {
+        centered: true,
+        title: 'Ошибка'
+      }
+    },
     parsedTime () {
       let parts = this.time.split(':')
       return {
@@ -65,8 +71,10 @@ export default {
     async save () {
       if (this.time && this.price) {
         await this.$db.asyncInsert(this.record)
-        this.$bus.emit('fetchOrders')
+        this.$store.dispatch('fetchOrders')
         this.clearModal()
+      } else {
+        this.$bvModal.msgBoxOk('Выберите время и укажите стоймость!', this.messageBoxOptions)
       }
     },
     addToDate (date, seconds) {

@@ -37,6 +37,12 @@ export default {
         $or: [{ name: this.name }, { ip: this.ip }]
       }
     },
+    messageBoxOptions () {
+      return {
+        centered: true,
+        title: 'Ошибка'
+      }
+    },
     record () {
       return {
         _table: this.table,
@@ -52,14 +58,14 @@ export default {
       if (this.name && this.ip) {
         let count = await this.$db.asyncCount(this.existRecord)
         if (count) {
-          alert('Компьютер с таким названием или IP адресом уже есть в базе данных!')
+          this.$bvModal.msgBoxOk('Компьютер с такими данными уже есть в базе!', this.messageBoxOptions)
         } else {
           this.$db.insert(this.record)
-          this.$bus.emit('fetchComputers')
+          this.$store.dispatch('fetchComputers')
           this.clearModal()
         }
       } else {
-        alert('Введите название и IP адрес!')
+        this.$bvModal.msgBoxOk('Введите название и IP адрес!', this.messageBoxOptions)
       }
     },
     clearModal () {
